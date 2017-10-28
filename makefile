@@ -1,0 +1,11 @@
+MSD_FILE				:= $(shell find module_system_dummy/ -maxdepth 5 -type f -name "*.h" )
+MSD_CPP_FILE			:= $(shell find module_system_dummy/ -maxdepth 5 -type f -name "*.cpp" )
+MSD_C_FILE				:= $(shell find module_system_dummy/ -maxdepth 5 -type f -name "*.c" )
+MSD_DIR					:= $(shell find module_system_dummy/ -maxdepth 5 -type d -name "*" )
+MSD_OBJ_FILE			:= $(addprefix build/obj/, $(MSD_CPP_FILE))
+MSD_OBJ_FILE			+= $(addprefix build/obj/, $(MSD_C_FILE))
+MSD_OBJ_FILE			:= $(patsubst %.cpp, %.o, $(MSD_OBJ_FILE))
+MSD_OBJ_FILE			:= $(patsubst %.c, %.o, $(MSD_OBJ_FILE))
+
+PROJECT_PATH			+= $(MSD_PATH)
+PROJECT_OBJ_FILE		+= $(MSD_OBJ_FILE)
