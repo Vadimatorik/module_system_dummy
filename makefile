@@ -12,8 +12,10 @@ MODULE_SYSTEM_DUMMY_OBJ_FILE			:= $(patsubst %.c, %.o, $(MODULE_SYSTEM_DUMMY_OBJ
 build/obj/module_system_dummy/%.o:	module_system_dummy/%.cpp
 	@echo [CPP] $<
 	@mkdir -p $(dir $@)
-	@$(CPP) $(CPP_FLAGS) $(DEFINE_PROJ) $(MODULE_SYSTEM_DUMMY_PATH) $(MODULE_SYSTEM_DUMMY_OPTIMIZATION) -c $< -o $@
+	@$(CPP) $(CPP_FLAGS) $(DEFINE_PROJ) $(MODULE_SYSTEM_DUMMY_PATH) $(MODULE_SYSTEM_DUMMY_OPTIMIZATION) $(PATH_USER_MC_LOW_LAVEL) -c $< -o $@
 
 
 PROJECT_PATH			+= $(MODULE_SYSTEM_DUMMY_PATH)
 PROJECT_OBJ_FILE		+= $(MODULE_SYSTEM_DUMMY_OBJ_FILE)
+
+# В PATH_USER_MC_LOW_LAVEL содержатся пути до библиотеки низкоуровневых драйверов конкретного МК.
