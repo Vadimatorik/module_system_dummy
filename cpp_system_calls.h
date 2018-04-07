@@ -1,6 +1,10 @@
 #pragma once
 
 // Перечень используемых МК.
+#ifdef STM32F103xB
+#include "stm32f103xb.h"
+#endif
+
 #ifdef STM32F205xx
 #include "stm32f205xx.h"
 #endif
