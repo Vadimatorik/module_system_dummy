@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef MODULE_CPP_SYSTEM_CALLS_DUMMY_ENABLED
+
 // Перечень используемых МК.
 #ifdef STM32F103xB
 #include "stm32f103xb.h"
@@ -28,3 +30,5 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <sys/stat.h>
+
+#endif

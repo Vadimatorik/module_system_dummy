@@ -1,5 +1,7 @@
 #include "cpp_system_calls.h"
 
+#ifdef MODULE_CPP_SYSTEM_CALLS_DUMMY_ENABLED
+
 #undef errno
 extern int errno;
 
@@ -170,3 +172,4 @@ void* _sbrk ( intptr_t incr ) {
 
 }
 
+#endif
