@@ -27,6 +27,10 @@
 #include "stm32f407xx.h"
 #endif
 
+#ifdef STM32F415xx
+#include "stm32f415xx.h"
+#endif
+
 #include <stdlib.h>
 #include <errno.h>
 #include <sys/stat.h>
