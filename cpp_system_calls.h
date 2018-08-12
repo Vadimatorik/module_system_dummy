@@ -1,5 +1,7 @@
 #pragma once
 
+#include "project_config.h"
+
 #ifdef MODULE_CPP_SYSTEM_CALLS_DUMMY_ENABLED
 
 // Перечень используемых МК.
