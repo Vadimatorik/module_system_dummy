@@ -25,6 +25,10 @@
 #include "stm32f217xx.h"
 #endif
 
+#ifdef STM32F405xx
+#include "stm32f405xx.h"
+#endif
+
 #ifdef STM32F407xx
 #include "stm32f407xx.h"
 #endif
