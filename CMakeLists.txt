@@ -19,7 +19,7 @@ endif ()
 # Они должны быть заданы в корневом проекте.
 # Параметры должны быть обязательно разделены через <<;>>.
 # Пример:
-# SET (SYSTEM_DUMMY_COMPILER_FLAGS "${COMMON_FLAGS};-std=gnu99;-fshort-enums;")
+# SET (SYSTEM_DUMMY_COMPILER_FLAGS "${MICROCONTROLLER_HARDWARE_FLAGS};${CPP_COMPILER_FLAGS};")
 if (NOT DEFINED ${PROJECT_NAME}_COMPILER_FLAGS)
     message (FATAL_ERROR
              "The value of the variable <<${PROJECT_NAME}_COMPILER_FLAGS>> is not specified!")
