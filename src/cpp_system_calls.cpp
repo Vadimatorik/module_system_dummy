@@ -6,8 +6,8 @@
 
 extern int errno;
 
-extern uint32_t __bss_end__;    // Конечный адрес BSS области.
-                                // (По этому адресу записывать уже не нужно (проверяется по <)).
+extern uint32_t __bss_end;    // Конечный адрес BSS области.
+// (По этому адресу записывать уже не нужно (проверяется по <)).
 
 //*********************************************************************
 // Функции, необходимые для поддержания работы бибилиотеки libc.a.
@@ -20,27 +20,29 @@ void HAL_NVIC_SystemReset (void);
 // Заглушка для сборки. После сборки заменяется соответствующей
 // функцией из startup файла
 //*********************************************************************
-void __attribute__ ((weak)) _init(void)  {}
+void __attribute__ ((weak)) _init (void) {
+}
 
 //**********************************************************************
 // Метод вызывается при завершении программы
 // ( вызывается перезагрузка чипа ).
 // Вызвать ее могут exit, abort.
 //**********************************************************************
-void __attribute__ ((weak)) _exit ( int ) {
+void __attribute__ ((weak)) _exit (int) {
     HAL_NVIC_SystemReset();
-	while(1);
+    while (1);
 }
 
-void __attribute__ ((weak)) _abort ( void ) {
+void __attribute__ ((weak)) _abort (void) {
     HAL_NVIC_SystemReset();
 }
 
 //**********************************************************************
 // Убиваем процесс ( заглушка ).
 //**********************************************************************
-int __attribute__ ((weak)) _kill ( int pid, int sig ) {
-    (void)pid; (void)sig;
+int __attribute__ ((weak)) _kill (int pid, int sig) {
+    (void)pid;
+    (void)sig;
     errno = EINVAL;
     return -1;
 }
@@ -48,15 +50,16 @@ int __attribute__ ((weak)) _kill ( int pid, int sig ) {
 //**********************************************************************
 // Закрываем файл ( заглушка ).
 //**********************************************************************
-int __attribute__ ((weak)) _close ( void ) {
+int __attribute__ ((weak)) _close (void) {
     return -1;
 }
 
 //**********************************************************************
 // Если имеется системный терминал, выводить в него данные.
 //**********************************************************************
-int __attribute__ ((weak)) _write ( char* buffer, uint32_t count ) {
-    (void)buffer; (void)count;
+int __attribute__ ((weak)) _write (char *buffer, uint32_t count) {
+    (void)buffer;
+    (void)count;
     // Дописать поддержку терминала!
     return count;
 }
@@ -64,8 +67,9 @@ int __attribute__ ((weak)) _write ( char* buffer, uint32_t count ) {
 //*********************************************************************
 // Если имеется системный терминал, то считать из него данные.
 //*********************************************************************
-int __attribute__ ((weak)) _read ( char* ptr, int len ) {
-    (void)ptr; (void)len;
+int __attribute__ ((weak)) _read (char *ptr, int len) {
+    (void)ptr;
+    (void)len;
     // Реализовать считывание!
     return 0;
 }
@@ -74,7 +78,7 @@ int __attribute__ ((weak)) _read ( char* ptr, int len ) {
 // Возвращаем тип "файла"
 // ( нашего терминала, если испольуется ).
 //**********************************************************************
-int __attribute__ ((weak)) _fstat( struct stat *st ) {
+int __attribute__ ((weak)) _fstat (struct stat *st) {
     st->st_mode = S_IFCHR;                      // Символно-ореинтированный "файл".
     return 0;
 }
@@ -85,7 +89,7 @@ int __attribute__ ((weak)) _fstat( struct stat *st ) {
 // терминал.
 // Не используется ( заглушка ).
 //**********************************************************************
-int __attribute__ ((weak)) _lseek( void ) {
+int __attribute__ ((weak)) _lseek (void) {
     return 0;
 }
 
@@ -93,7 +97,7 @@ int __attribute__ ((weak)) _lseek( void ) {
 // Используется для уточнения, является ли
 // файл терминалом.
 //**********************************************************************
-int __attribute__ ((weak)) _isatty ( int file ) {
+int __attribute__ ((weak)) _isatty (int file) {
     (void)file;
     return 1;
 }
@@ -102,7 +106,7 @@ int __attribute__ ((weak)) _isatty ( int file ) {
 // Возвращает ID процесса.
 // Не используется ( заглушка ).
 //**********************************************************************
-int __attribute__ ((weak)) _getpid ( void ) {
+int __attribute__ ((weak)) _getpid (void) {
     return 1;
 }
 
@@ -110,9 +114,10 @@ int __attribute__ ((weak)) _getpid ( void ) {
 // Передача управления новому процессу.
 // Процессов нет -> возвращаем ошибку.
 //**********************************************************************
-int __attribute__ ((weak)) _execve ( char *name, char **argv, char **env )
-{
-    (void)name; (void)argv; (void)env;
+int __attribute__ ((weak)) _execve (char *name, char **argv, char **env) {
+    (void)name;
+    (void)argv;
+    (void)env;
     errno = ENOMEM;
     return -1;
 }
@@ -121,7 +126,7 @@ int __attribute__ ((weak)) _execve ( char *name, char **argv, char **env )
 // fork - создание нового процесса.
 // Мы их не поддерживаем.
 //**********************************************************************
-int __attribute__ ((weak)) _fork ( void ) {
+int __attribute__ ((weak)) _fork (void) {
     errno = EAGAIN;
     return -1;
 }
@@ -132,7 +137,7 @@ int __attribute__ ((weak)) _fork ( void ) {
 // ( Заглушка ).
 //**********************************************************************
 
-clock_t __attribute__ ((weak)) _times( struct tms *buf ) {
+clock_t __attribute__ ((weak)) _times (struct tms *buf) {
     (void)buf;
     return -1;
 }
@@ -141,7 +146,7 @@ clock_t __attribute__ ((weak)) _times( struct tms *buf ) {
 // Удаление имени файла. Не используется.
 //*********************************************************************
 
-int __attribute__ ((weak)) _unlink( char *name ) {
+int __attribute__ ((weak)) _unlink (char *name) {
     (void)name;
     errno = ENOENT;
     return -1;
@@ -151,33 +156,37 @@ int __attribute__ ((weak)) _unlink( char *name ) {
 // Ожидание дочерних процессов.
 // ( Не используется ).
 //**********************************************************************
-int __attribute__ ((weak)) _wait( int *status ) {
+int __attribute__ ((weak)) _wait (int *status) {
     (void)status;
     errno = ECHILD;
     return -1;
 }
 
-const char HEAP_AND_STACK_COLLISION[] = "Heap and stack collision\n";
-
 //**********************************************************************
 // Проверяем, что наши данные ( которые malloc и прочие могут
 // попробовать запросить ) не наложатся на стек.
 //**********************************************************************
-void* __attribute__ ((weak)) _sbrk ( intptr_t incr ) {
-    uint32_t stack_ptr;                                                 // Адресс, на котором сейчас находится указатель стека
-                                                                        // ( ячейка, на которую указывает указатель не пуста,
-                                                                        // в ней последнее сохраненное слово ).
-    asm volatile ( "MRS %0, msp\n" : "=r" ( stack_ptr ) );
+void *__attribute__ ((weak)) _sbrk (int incr) {
+    extern char __heap_start;
+    extern char __heap_end;
 
-    uint32_t static heap_end = ( uint32_t )&__bss_end__;                // Указатель на первый байт после области .bss.
+    static char *heap_end;
+    char *prev_heap_end;
 
-    if ( heap_end + incr >= stack_ptr ) {
-        _write( ( char* )HEAP_AND_STACK_COLLISION, sizeof(HEAP_AND_STACK_COLLISION) );
-        abort();
+    if (0 == heap_end) {
+        heap_end = &__heap_start;            /* Initialize first time round */
     }
 
+    prev_heap_end = heap_end;
     heap_end += incr;
-    return ( caddr_t )stack_ptr;
+    //check
+    if (heap_end < (&__heap_end)) {
+
+    } else {
+        errno = ENOMEM;
+        return (char *)-1;
+    }
+    return (void *)prev_heap_end;
 }
 
 }
