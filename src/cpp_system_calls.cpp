@@ -183,8 +183,7 @@ void *__attribute__ ((weak)) _sbrk (int incr) {
     if (heap_end < (&__heap_end)) {
 
     } else {
-        errno = ENOMEM;
-        return (char *)-1;
+        while (true);
     }
     return (void *)prev_heap_end;
 }
